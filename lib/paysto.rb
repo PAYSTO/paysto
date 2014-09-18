@@ -1,6 +1,7 @@
 class Paysto
   PAYMENT_GATE_URL = 'https://paysto.com/api/paymentGate/'
   API_URL = 'https://paysto.com/api/Common/'
+  PAYMENT_STATUS_URL = 'https://paysto.com/api/Payment/GetByInvoiceId'
 
   def initialize(shop_id, secret)
     @shop_id = shop_id
@@ -16,6 +17,17 @@ class Paysto
       raise PaystoException, "#{status}: #{message}"
     end
     true
+  end
+
+  def check_payment_status(invoice_id)
+    params = {
+        PAYSTO_SHOP_ID: @shop_id,
+        PAYSTO_INVOICE_ID: invoice_id,
+        PAYSTO_REQUEST_NO: Time.now.to_i
+    }
+    params[:PAYSTO_MD5] = sign params
+    response = api_call PAYMENT_STATUS_URL, params
+
   end
 
   def balance
