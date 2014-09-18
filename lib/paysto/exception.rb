@@ -1,0 +1,1 @@
+class PaystoException < Exception; end
