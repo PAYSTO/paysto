@@ -20,11 +20,15 @@ class Paysto
     true
   end
 
-  def check_payment_status(invoice_id)
+  def payment_info(invoice_id)
     options = {
         PAYSTO_INVOICE_ID: invoice_id
     }
-    response = api_call '/api/Payment/GetByInvoiceId', options
+    api_call '/api/Payment/GetByInvoiceId', options
+  end
+
+  def check_payment_status(invoice_id)
+    response = payment_info invoice_id
     data = response.split ','
     if data[0] == 'RES_ERROR'
       raise PaystoException, "#{data[0]}: #{data[1]}"
