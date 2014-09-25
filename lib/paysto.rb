@@ -1,3 +1,7 @@
+require 'net/http'
+require 'net/https'
+require "paysto/exception"
+
 class Paysto
   API_URL = 'https://paysto.com'
 
